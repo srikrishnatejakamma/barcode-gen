@@ -1,0 +1,82 @@
+{
+  "name": "barcode-generator",
+  "version": "0.3.0",
+  "description": "Barcode generator API (Node.js + Express + MongoDB) wrapped as a cross-platform Electron app. Now with a Next.js-based UI.",
+  "main": "electron-main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "NODE_ENV=development electron .",
+    "server": "node server.js",
+    "server:dev": "nodemon server.js",
+    "dev:client": "next dev client -p 3001",
+    "build:client": "next build client",
+    "build:client:prod": "NODE_ENV=production next build client",
+    "predist": "npm run build:client",
+    "dist": "npm run predist && electron-builder",
+    "build:mac": "npm run predist && electron-builder --mac",
+    "build:win": "npm run predist && electron-builder --win",
+    "build:linux": "npm run predist && electron-builder --linux"
+  },
+  "build": {
+    "appId": "com.srikrishnatejakamma.barcode-generator",
+    "productName": "Barcode Generator",
+    "files": [
+      "**/*",
+      "!node_modules/**/.cache/**",
+      "!dist/**"
+    ],
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "createDesktopShortcut": false,
+      "createStartMenuShortcut": false,
+      "include": "build/installer.nsh",
+      "unicode": true
+    },
+    "dmg": {
+      "contents": [
+        { "x": 130, "y": 220, "type": "file" },
+        { "x": 410, "y": 220, "type": "link", "path": "/Applications" }
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "bwip-js": "^2.2.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.0",
+    "uuid": "^9.0.0",
+    "mongodb-memory-server": "^8.12.0",
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "electron": "^26.0.0",
+    "electron-builder": "^24.6.0",
+    "nodemon": "^2.0.22"
+  }
+}
